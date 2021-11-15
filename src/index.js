@@ -4,7 +4,8 @@ import {
   collection,
   onSnapshot, 
   getDocs,
-  addDoc,deleteDoc, doc
+  addDoc,deleteDoc, doc,
+  query, where
 } from 'firebase/firestore'
 
 
@@ -25,15 +26,20 @@ const db = getFirestore()
 
 // collection ref
 const colRef = collection(db, 'users')
+// queries
+const q = query(colRef, where("school", "==", "UOttawa"))
+// realtime collection data
 
 // realtime collection data
-onSnapshot(colRef, (snapshot) => {
+
+onSnapshot(q, (snapshot) => {
   let users = []
   snapshot.docs.forEach(doc => {
-    users.push({ ...doc.data(), id: doc.id })
+   users.push({ ...doc.data(), id: doc.id })
   })
   console.log(users)
 })
+
 
   // adding docs
 const addUserForm = document.querySelector('.add')
