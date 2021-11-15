@@ -1,10 +1,13 @@
 import { initializeApp } from 'firebase/app'
 import {
   getFirestore, 
-  collection, 
+  collection,
+  onSnapshot, 
   getDocs,
   addDoc,deleteDoc, doc
 } from 'firebase/firestore'
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyCCFNKfpLHtkkwBmCi61g8fNtqVKkM1YXk",
   authDomain: "mad9135-h2-firestore-51083.firebaseapp.com",
@@ -23,19 +26,14 @@ const db = getFirestore()
 // collection ref
 const colRef = collection(db, 'users')
 
-// get collection data
-getDocs(colRef)
-  .then(snapshot => {
-    // console.log(snapshot.docs)
-    let users = []
-    snapshot.docs.forEach(doc => {
-      users.push({ ...doc.data(), id: doc.id })
-    })
-    console.log(users)
+// realtime collection data
+onSnapshot(colRef, (snapshot) => {
+  let users = []
+  snapshot.docs.forEach(doc => {
+    users.push({ ...doc.data(), id: doc.id })
   })
-  .catch(err => {
-    console.log(err.message)
-  })
+  console.log(users)
+})
 
   // adding docs
 const addUserForm = document.querySelector('.add')
