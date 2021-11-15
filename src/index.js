@@ -3,7 +3,7 @@ import {
   getFirestore, 
   collection, 
   getDocs,
-  addDoc, doc
+  addDoc,deleteDoc, doc
 } from 'firebase/firestore'
 const firebaseConfig = {
   apiKey: "AIzaSyCCFNKfpLHtkkwBmCi61g8fNtqVKkM1YXk",
@@ -51,3 +51,17 @@ addUserForm.addEventListener('submit', (e) => {
     addUserForm.reset()
   })
 })
+
+
+// deleting docs
+const deleteUserForm = document.querySelector('.delete')
+deleteUserForm.addEventListener('submit', (e) => {
+  e.preventDefault()
+
+  const docRef = doc(db, 'users', deleteUserForm.id.value)
+
+  deleteDoc(docRef)
+    .then(() => {
+      deleteUserForm.reset()
+    })
+}) 
